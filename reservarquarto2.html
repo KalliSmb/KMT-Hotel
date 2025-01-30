@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KMT Hotel</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+  <!-- Custom stlylesheet -->
+  <link type="text/css" rel="stylesheet" href="css/styler2.css" />
+
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
+    integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./css/listarquartos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <header>
+    <div class="content flex_space">
+      <div class="logo">
+        <h1>KMT HOTEL</h1>
+      </div>
+      <div class="navlinks">
+        <ul id="menulist">
+          <li><a href="index.html">Home</a> </li>
+          <li><a href="quartos.html">Quartos</a> </li>
+          <li><a href="reservas.html">Reservas/Tarifas</a> </li>
+          <li><a href="anulacao.html">Reservas Anuladas</a> </li>
+          <li><a href="gestao.html">Informação Gestão</a> </li>
+        </ul>
+        <span class="fa fa-bars" onclick="menutoggle()"></span>
+      </div>
+    </div>
+  </header>
+
+  <script>
+    var menulist = document.getElementById('menulist');
+    menulist.style.maxHeight = "0px";
+
+    function menutoggle() {
+      if (menulist.style.maxHeight == "0px") {
+        menulist.style.maxHeight = "100vh";
+      } else {
+        menulist.style.maxHeight = "0px";
+      }
+    }
+  </script>
+
+  <div id="booking" class="section">
+    <div class="section-center">
+      <div class="container">
+        <div class="row">
+          <div class="booking-form">
+            <div class="booking-bg"></div>
+            <form>
+              <div class="form-header">
+                <h2>Reservar Quarto Cosy Room</h2>
+              </div>
+              <div class="form-group" hidden>
+                <span class="form-label">Quarto</span>
+                <input id="quartoInput" class="form-control" type="text" placeholder="City Room" style="display: none;">
+                <p id="quartoLabel">Cosy Room</p>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span class="form-label">Adultos</span>
+                    <select id="inputAdultos" class="form-control" onchange="calcularPreco()">
+                      <option>1</option>
+                      <option>2</option>
+                    </select>
+                    <span class="select-arrow"></span>
+                  </div>
+                  <div class="form-group">
+                    <span class="form-label">Ofertas</span>
+                    <select id="inputOferta" class="form-control" onchange="calcularPreco()">
+                      <option value="133 € pequeno almoço">133 € pequeno almoço</option>
+                      <option value="157 € credito comida e bebida incluido">157 € credito comida e bebida incluido</option>
+                    </select>
+                    <span class="select-arrow"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span for="inputCheckIn"class="form-label">Check In</span>
+                    <input id="inputCheckIn" class="form-control" type="date" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span for="inputCheckOut"class="form-label">Check Out</span>
+                    <input id="inputCheckOut" class="form-control" type="date" required>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <span  for="inputNome"class="form-label">Nome Completo</span>
+                <input id="inputNome" class="form-control" type="text" placeholder="">
+              </div>
+              <div class="form-group">
+                <span for="inputEmail"class="form-label">Email</span>
+                <input id="inputEmail" class="form-control" type="email" placeholder="">
+              </div>
+              <div class="form-group">
+                <span for="inputMensagem"class="form-label">Mensagem Adicional</span>
+                <textarea id="inputMensagem" class="form-control" rows="3" placeholder="Alguma solicitação especial?"></textarea>
+
+                <button type="button" class="btn btn-primary" onclick="calcularPreco()">Calcular Preço</button>
+
+                <div id="resultadoPreco" class="mt-4"></div>
+
+                <div class="form-btn">
+                  <button type="button" class="submit-btn" onclick="confirmarReserva()">Reservar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+function calcularPreco() {
+  // Obter valores do formulário
+  var numAdultos = parseInt(document.getElementById('inputAdultos').value);
+  var dataCheckIn = new Date(document.getElementById('inputCheckIn').value);
+  var dataCheckOut = new Date(document.getElementById('inputCheckOut').value);
+  var ofertaSelecionada = document.getElementById('inputOferta').value;
+
+  // Calcular a diferença em milissegundos
+  var diferencaEmMilissegundos = dataCheckOut.getTime() - dataCheckIn.getTime();
+
+  // Calcular a diferença em dias
+  var diferencaEmDias = Math.ceil(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
+
+  // Lógica de cálculo de preço
+  var precoBase = 133; // ou qualquer outro valor padrão desejado
+
+  // Definir o preço base com base na oferta selecionada
+  switch (ofertaSelecionada) {
+    case '133 € pequeno almoço':
+      precoBase = 133; // Já incluído no preço base
+      break;
+    case '157 € credito comida e bebida incluido':
+      precoBase = 157; // Oferta com crédito para comida e bebida
+      break;
+    // Adicione mais casos conforme necessário para outras ofertas
+  }
+
+  // Calcular o preço total considerando a diferença em dias
+  var precoTotal = precoBase * diferencaEmDias;
+
+  // Exibir o preço calculado
+  document.getElementById('resultadoPreco').innerHTML = '<strong>Preço Total:</strong> ' + precoTotal.toFixed(2) + ' €';
+}
+function confirmarReserva() {
+  // Obter valores do formulário
+  var quartoSelecionado = {
+    quartoId: 1, // Você pode ajustar isso conforme necessário
+    nomeQuarto: document.getElementById('quartoLabel').innerText,
+    nome: document.getElementById('inputNome').value,
+    email: document.getElementById('inputEmail').value,
+    checkIn: document.getElementById('inputCheckIn').value,
+    checkOut: document.getElementById('inputCheckOut').value,
+    adultos: document.getElementById('inputAdultos').value,
+    ofertas: document.getElementById('inputOferta').value,
+    mensagem: document.getElementById('inputMensagem').value,
+    criancas: document.getElementById('inputCriancas') ? document.getElementById('inputCriancas').value : 0,
+    precoTotal: parseFloat(document.getElementById('resultadoPreco').textContent.replace('Preço Total: €', '').trim()) || 0
+  };
+
+  // Recuperar reservas existentes do localStorage
+  var reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+
+  // Adicionar a nova reserva ao array
+  reservas.push(quartoSelecionado);
+
+  // Armazenar o array atualizado de reservas no localStorage
+  localStorage.setItem('reservas', JSON.stringify(reservas));
+
+  // Redirecionar para a página de reservas após um pequeno intervalo (500 milissegundos)
+  setTimeout(function () {
+    window.location.href = 'reservas.html';
+  }, 500);
+}
+
+    var reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+
+    // Função para bloquear os dias ocupados no calendário
+    function bloquearDiasOcupados() {
+      reservas.forEach(function (reserva) {
+        var dataCheckIn = new Date(reserva.checkIn);
+        var dataCheckOut = new Date(reserva.checkOut);
+
+        while (dataCheckIn <= dataCheckOut) {
+          var dataFormatada = dataCheckIn.toISOString().split('T')[0];
+          var diaOcupado = document.getElementById(dataFormatada);
+
+          if (diaOcupado) {
+            // Adicione uma classe para indicar que o dia está ocupado
+            diaOcupado.classList.add('calendario-dia-ocupado');
+          }
+
+          // Avance para o próximo dia
+          dataCheckIn.setDate(dataCheckIn.getDate() + 1);
+        }
+      });
+    }
+
+    // Chame a função para bloquear os dias ocupados ao carregar a página
+    bloquearDiasOcupados();
+  </script>
+
+  <div class="legal">
+    <h1 class="container">KMT HOTEL</h1>
+  </div>
+
+  <script src="https://kit.fontawesome.com/032d11eac3.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anulação de Reserva</title>
+  <!-- Adicione o link para o Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Estilos adicionais, se necessário */
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2 class="text-center mb-4">Anulação de Reserva</h2>
+
+    <div id="exibirAnulacao"></div>
+  </div>
+
+  <script>
+    // Função para obter a reserva anulada do localStorage
+    function obterReservaAnulada() {
+      // Recuperar a reserva anulada do localStorage
+      var reservaAnulada = JSON.parse(localStorage.getItem('reservaAnulada')) || {};
+
+      // Exibir as informações da reserva anulada
+      var exibirAnulacaoDiv = document.getElementById('exibirAnulacao');
+      if (reservaAnulada && Object.keys(reservaAnulada).length > 0) {
+        exibirAnulacaoDiv.innerHTML += '<div class="card mb-3">';
+        exibirAnulacaoDiv.innerHTML += '<div class="card-body">';
+        exibirAnulacaoDiv.innerHTML += '<h5 class="card-title">Reserva Anulada</h5>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Quarto:</strong> ' + reservaAnulada.nomeQuarto + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Nome:</strong> ' + reservaAnulada.nome + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Email:</strong> ' + reservaAnulada.email + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Check-In:</strong> ' + reservaAnulada.checkIn + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Check-Out:</strong> ' + reservaAnulada.checkOut + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Adultos:</strong> ' + reservaAnulada.adultos + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Crianças:</strong> ' + reservaAnulada.criancas + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Mensagem:</strong> ' + reservaAnulada.mensagem + '</p>';
+        exibirAnulacaoDiv.innerHTML += '<p><strong>Preço Total:</strong> $' + reservaAnulada.precoTotal.toFixed(2) + '</p>';
+        exibirAnulacaoDiv.innerHTML += '</div>';
+        exibirAnulacaoDiv.innerHTML += '</div>';
+      } else {
+        exibirAnulacaoDiv.innerHTML = '<p>Nenhuma informação de reserva encontrada para anulação.</p>';
+      }
+    }
+
+    // Chame a função para exibir a reserva anulada ao carregar a página
+    obterReservaAnulada();
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

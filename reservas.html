@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas</title>
+  <!-- Adicione o link para o Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Estilos adicionais, se necessário */
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2 class="text-center mb-4">Reservas</h2>
+
+    <!-- Exibir as reservas aqui -->
+    <div id="exibirReservas"></div>
+  </div>
+
+  <script src="https://momentjs.com/downloads/moment.min.js"></script>
+
+<script>
+  // Recuperar reservas do localStorage
+  var reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+
+  // Exibir as reservas na página
+  var exibirReservasDiv = document.getElementById('exibirReservas');
+  if (reservas.length > 0) {
+    exibirReservasDiv.innerHTML = '<h3>Reservas:</h3>';
+    reservas.forEach(function (reserva, index) {
+      // Calcular o status da reserva
+      var status = calcularStatusReserva(reserva);
+
+      exibirReservasDiv.innerHTML += '<div class="card mb-3">';
+      exibirReservasDiv.innerHTML += '<div class="card-body">';
+      exibirReservasDiv.innerHTML += '<h5 class="card-title">Reserva #' + (index + 1) + ' <span class="badge badge-' + status.classe + '">' + status.texto + '</span></h5>';
+      exibirReservasDiv.innerHTML += '<p><strong>Quarto:</strong> ' + reserva.nomeQuarto + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Nome:</strong> ' + reserva.nome + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Email:</strong> ' + reserva.email + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Check-In:</strong> ' + moment(reserva.checkIn).format('DD/MM/YYYY') + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Check-Out:</strong> ' + moment(reserva.checkOut).format('DD/MM/YYYY') + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Adultos:</strong> ' + reserva.adultos + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Crianças:</strong> ' + reserva.criancas + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Mensagem:</strong> ' + reserva.mensagem + '</p>';
+      exibirReservasDiv.innerHTML += '<p><strong>Preço Total:</strong> €' + reserva.precoTotal + '</p>';
+      exibirReservasDiv.innerHTML += '<button class="btn btn-danger" onclick="anularReserva(' + index + ')">Anular Reserva</button>';
+      exibirReservasDiv.innerHTML += '</div>';
+      exibirReservasDiv.innerHTML += '</div>';
+    });
+  } else {
+    exibirReservasDiv.innerHTML = '<p>Nenhuma reserva encontrada.</p>';
+  }
+
+    // Função para calcular o status da reserva
+    function calcularStatusReserva(reserva) {
+      var status = {
+        classe: 'secondary',
+        texto: 'Ainda Não Começou'
+      };
+
+      var hoje = new Date();
+      var dataCheckIn = new Date(reserva.checkIn);
+      var dataCheckOut = new Date(reserva.checkOut);
+
+      if (hoje < dataCheckIn) {
+        status = {
+          classe: 'success',
+          texto: 'Ainda Não Começou'
+        };
+      } else if (hoje >= dataCheckIn && hoje <= dataCheckOut) {
+        status = {
+          classe: 'primary',
+          texto: 'A Decorrer'
+        };
+      } else if (hoje > dataCheckOut) {
+        status = {
+          classe: 'danger',
+          texto: 'Acabou'
+        };
+      }
+
+      return status;
+    }
+
+    // Função para anular uma reserva
+    function anularReserva(index) {
+      // Remover a reserva do array
+      var reservaAnulada = reservas.splice(index, 1)[0];
+
+      // Atualizar o localStorage
+      localStorage.setItem('reservas', JSON.stringify(reservas));
+
+      // Armazenar a reserva anulada no localStorage para exibição na página de anulação
+      localStorage.setItem('reservaAnulada', JSON.stringify(reservaAnulada));
+
+      // Redirecionar para a página de anulação
+      window.location.href = 'anulacao.html';
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
